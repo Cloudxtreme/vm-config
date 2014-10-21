@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder './log', '/var/log'
 
   config.vm.provider 'virtualbox' do |vm|
-    vm.name = 'Mage1.9'
+    vm.name = 'LAMP'
     vm.customize ['modifyvm', :id, '--memory', '1024']
   end
 
