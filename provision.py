@@ -23,7 +23,7 @@ def install(pkgs):
             print '%(name)s already installed' % {'name': pkg}
         else:
             try:
-                call(["apt-get", "-f", "install", pkg.name])
+                call(["apt-get", "-y", "-f", "install", pkg.name])
                 print '%(name)s installation done' % {'name': pkg}
             except Exception, arg:
                 print >> sys.stderr, "Sorry, package installation failed [%(err)s]" % {'err': str(arg)}
