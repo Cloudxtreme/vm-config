@@ -10,6 +10,8 @@ password = '123456'
 sql_path = "/vagrant/sql"
 py_path = "/vagrant/py"
 
+########################################################################################################################
+
 
 def echo(message, args=None):
     if not args:
@@ -53,17 +55,17 @@ pkgs = ('mysql-server', 'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', '
 install(pkgs)
 
 # Load SQL scripts
-for file in os.listdir("%s" % sql_path):
-    if file.endswith(".sql"):
-        echo('Run SQL script: %s/%s' % (sql_path, file))
-        os.system('mysql -uroot -p%s < %s/%s' % (password, sql_path, file))
+for file_name in os.listdir("%s" % sql_path):
+    if file_name.endswith(".sql"):
+        echo('Run SQL script: %s/%s' % (sql_path, file_name))
+        os.system('mysql -uroot -p%s < %s/%s' % (password, sql_path, file_name))
         echo('Script executed')
 
 # Load Py scripts
-for file in os.listdir("%s" % py_path):
-    if file.endswith(".py"):
-        echo('Run SQL script: %s/%s' % (py_path, file))
-        os.system('python %s/%s' % (py_path, file))
+for file_name in os.listdir("%s" % py_path):
+    if file_name.endswith(".py"):
+        echo('Run SQL script: %s/%s' % (py_path, file_name))
+        os.system('python %s/%s' % (py_path, file_name))
         echo('Script executed')
 
 ########################################################################################################################
