@@ -2,53 +2,61 @@ import platform
 import os
 import getpass
 import apt
-from subprocess import call
-import sys
-
-print "Provision with Python - " + platform.python_version()
-print "Guest User Name: " + getpass.getuser()
-print "Current directory: " + os.getcwd()
-
-print "Updating application cache..."
-cache = apt.cache.Cache()
-cache.update()
-print "... Done"
+from subprocess import *
 
 
-def install(pkgs):
-    for pkg in pkgs:
+def echo(message, args=None):
+    if not args:
+        call(['echo', message])
+        return
+
+    call(['echo', message % args])
+
+
+def install(packages):
+    for pkg in packages:
         pkg = cache[pkg]
 
         if pkg.is_installed:
-            print '%(name)s already installed' % {'name': pkg}
+            echo('%(name)s already installed', {'name': pkg})
         else:
             try:
-                call(["apt-get", "-y", "-f", "install", pkg.name])
-                print '%(name)s installation done' % {'name': pkg}
+                call(['apt-get', '-qy', 'install', pkg.name])
+                echo('%(name)s installation done', {'name': pkg})
             except Exception, arg:
-                print >> sys.stderr, "Sorry, package installation failed [%(err)s]" % {'err': str(arg)}
+                echo('Sorry, package installation failed [%(err)s]', {'err': str(arg)})
 
+########################################################################################################################
 
-pkgs = ('nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5', 'php5-mcrypt', 'php5-curl', 'php5-common', 'php5-cgi', 'php5-gd', 'php5-xdebug')
+echo('Provision with Python - %s', platform.python_version())
+echo('Guest User Name: %s', getpass.getuser())
+echo('Current directory: %s', os.getcwd())
+
+echo('Updating application cache...')
+cache = apt.cache.Cache()
+cache.update()
+echo('... Done')
+
+# Configure mysql
+password = '123456'
+mysql_package = 'mysql-server-5.5'
+
+p1 = Popen(['echo', '"%s mysql-server/root_password password %s"' % (mysql_package, password)], stdout=PIPE)
+p2 = Popen(['debconf-set-selections'], stdin=p1.stdout)
+p1.stdout.close()
+p2.communicate()
+
+p3 = Popen(['echo', '"%s mysql-server/root_password password %s"' % (mysql_package, password)], stdout=PIPE)
+p4 = Popen(['debconf-set-selections'], stdin=p3.stdout)
+p3.stdout.close()
+p4.communicate()
+
+# Install packages from manager
+pkgs = (
+    'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5', 'php5-mcrypt',
+    'php5-curl', 'php5-common', 'php5-cgi', 'php5-gd', 'php5-xdebug', mysql_package)
 install(pkgs)
 
-# Install MySql
-mysql_dir = "/usr/lib/mysql"
-mysql_file = "mysql-5.6.21-linux-glibc2.5-x86_64"
-mysql_source = "http://dev.mysql.com/get/Downloads/MySQL-5.6"
-if not os.path.isdir(mysql_dir):
-    print "Installing MySQL"
-    os.mkdir(mysql_dir)
-    os.chdir(mysql_dir)
+########################################################################################################################
 
-    print "Downloading..."
-    call(["wget", "%(source)s/%(file)s.tar.gz" % {'source': mysql_source, 'file': mysql_file}, "-nv"])
-    print "... Done"
-
-    call(["tar", "-xzf", "%s.tar.gz" % mysql_file])
-    call(["mv", "./%s/*" % file, "."])
-
-    call(["rm", "-r", mysql_file])
-    call(["rm", "-r", "%s.tar.gz" % mysql_file])
-else:
-    print 'MySQL already installed'
+echo('Provisioning done')
