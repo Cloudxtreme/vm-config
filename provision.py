@@ -39,23 +39,23 @@ echo('... Done')
 
 # Configure mysql
 password = '123456'
-mysql_package = 'mysql-server-5.5'
+mysql_package = 'mysql-server'
 
-p1 = Popen(['echo', '"%s mysql-server/root_password password %s"' % (mysql_package, password)], stdout=PIPE)
-p2 = Popen(['debconf-set-selections'], stdin=p1.stdout)
-p1.stdout.close()
-p2.communicate()
-
-p3 = Popen(['echo', '"%s mysql-server/root_password password %s"' % (mysql_package, password)], stdout=PIPE)
-p4 = Popen(['debconf-set-selections'], stdin=p3.stdout)
-p3.stdout.close()
-p4.communicate()
+os.system('echo "%s mysql-server/root_password password %s" | debconf-set-selections' % (mysql_package, password))
+os.system('echo "%s mysql-server/root_password_again password %s" | debconf-set-selections' % (mysql_package, password))
 
 # Install packages from manager
-pkgs = (
-    'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5', 'php5-mcrypt',
-    'php5-curl', 'php5-common', 'php5-cgi', 'php5-gd', 'php5-xdebug', mysql_package)
+pkgs = (mysql_package, 'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5',
+        'php5-mcrypt', 'php5-curl', 'php5-common', 'php5-cgi', 'php5-gd', 'php5-xdebug')
 install(pkgs)
+
+# Config mysql
+mysql_dir = '/var/lib/mysql/'
+if not os.path.isdir(mysql_dir):
+    os.mkdir(mysql_dir)
+
+    call(['adduser', 'mysql'])
+    call(['chown', 'mysql:mysql', '-R', '/var/lib/mysql'])
 
 ########################################################################################################################
 
