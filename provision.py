@@ -4,6 +4,12 @@ import getpass
 import apt
 from subprocess import *
 
+# Configured
+password = '123456'
+
+sql_path = "/vagrant/sql"
+py_path = "/vagrant/py"
+
 
 def echo(message, args=None):
     if not args:
@@ -38,24 +44,27 @@ cache.update()
 echo('... Done')
 
 # Configure mysql
-password = '123456'
-mysql_package = 'mysql-server'
-
-os.system('echo "%s mysql-server/root_password password %s" | debconf-set-selections' % (mysql_package, password))
-os.system('echo "%s mysql-server/root_password_again password %s" | debconf-set-selections' % (mysql_package, password))
+os.system('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections' % password)
+os.system('echo "mysql-server mysql-server/root_password_again password %s" | debconf-set-selections' % password)
 
 # Install packages from manager
-pkgs = (mysql_package, 'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5',
+pkgs = ('mysql-server', 'nano', 'links', 'wget', 'apache2', 'openssl', 'php5', 'php5-mysql', 'libapache2-mod-php5',
         'php5-mcrypt', 'php5-curl', 'php5-common', 'php5-cgi', 'php5-gd', 'php5-xdebug')
 install(pkgs)
 
-# Config mysql
-mysql_dir = '/var/lib/mysql/'
-if not os.path.isdir(mysql_dir):
-    os.mkdir(mysql_dir)
+# Load SQL scripts
+for file in os.listdir("%s" % sql_path):
+    if file.endswith(".sql"):
+        echo('Run SQL script: %s/%s' % (sql_path, file))
+        os.system('mysql -uroot -p%s < %s/%s' % (password, sql_path, file))
+        echo('Script executed')
 
-    call(['adduser', 'mysql'])
-    call(['chown', 'mysql:mysql', '-R', '/var/lib/mysql'])
+# Load Py scripts
+for file in os.listdir("%s" % py_path):
+    if file.endswith(".py"):
+        echo('Run SQL script: %s/%s' % (py_path, file))
+        os.system('python %s/%s' % (py_path, file))
+        echo('Script executed')
 
 ########################################################################################################################
 
