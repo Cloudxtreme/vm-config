@@ -2,3 +2,12 @@
 .idea
 log
 .vagrant
+
+/www/html/*
+!/www/html/test.php
+
+/sql/*
+!/sql/script.sql
+
+/py/*
+!/py/script.sql

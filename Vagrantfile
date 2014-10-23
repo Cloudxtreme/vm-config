@@ -4,7 +4,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'ubuntu/trusty64'
   config.vm.box_check_update = true
 
-  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.11"
 
   config.vm.synced_folder '.', '/vagrant'
   config.vm.synced_folder './www', '/var/www'
@@ -16,5 +16,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :shell, :inline => 'python /vagrant/provision.py'
-  config.vm.provision :shell, :inline => 'ifconfig eth1', :run => :always
+  config.vm.provision :shell, :inline => 'ifconfig eth1 | grep "inet addr"', :run => :always
 end
