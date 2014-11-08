@@ -1,2 +1,0 @@
--- Stab file --
-show databases;

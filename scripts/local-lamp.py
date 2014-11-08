@@ -1,5 +1,3 @@
-import pwd
-import grp
 from util import *
 
 password = '123456'
@@ -27,22 +25,15 @@ call('/etc/init.d/apache2 restart')
 # Post config mysql
 echo('Post installation configuring MySQL...')
 replace('/etc/mysql/my.cnf', 'bind-address', '#ba:')
-os.chown('/etc/mysql/my.cnf', pwd.getpwnam('mysql').pw_uid, grp.getgrnam('mysql').gr_gid)
+chown('/etc/mysql/my.cnf', 'mysql', 'mysql')
 call('/etc/init.d/mysql restart')
 echo('... Done')
 
 # Load SQL scripts
-for file_name in os.listdir("%s" % sql_path):
+for file_name in ls(sql_path):
     if file_name.endswith(".sql"):
         echo('Run SQL script: %s/%s' % (sql_path, file_name))
         call('mysql -uroot -p%s < %s/%s' % (password, sql_path, file_name))
-        echo('Script executed')
-
-# Load Py scripts
-for file_name in os.listdir("%s" % py_path):
-    if file_name.endswith(".py"):
-        echo('Run SQL script: %s/%s' % (py_path, file_name))
-        call('python %s/%s' % (py_path, file_name))
         echo('Script executed')
 
 echo('Provisioning done')

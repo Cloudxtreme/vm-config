@@ -1,9 +1,24 @@
+import pwd
+import grp
 import getpass
 import platform
 from tempfile import mkstemp
 from shutil import move
 import apt
 from subprocess import *
+import os
+
+
+def ls(name):
+    result = os.listdir(name)
+    
+    if result is None: 
+        return ()
+
+    return result
+
+def chown(name, user, group):
+    os.chown(name, pwd.getpwnam(user).pw_uid, grp.getgrnam(group).gr_gid)
 
 
 def call(command):
@@ -19,10 +34,10 @@ def updatedCache():
 
 def echo(message, args=None):
     if not args:
-        call(['echo', message])
+        call('echo %s' % message)
         return
 
-    call(['echo', message % args])
+    call('echo %s' % (message % args))
 
 
 def apt_get(packages):
@@ -33,7 +48,7 @@ def apt_get(packages):
             echo('%(name)s already installed', {'name': pkg})
         else:
             try:
-                call(['apt-get', '-qy', 'install', pkg.name])
+                call('apt-get -qy install %s' % pkg.name)
                 echo('%(name)s installation done', {'name': pkg})
             except Exception, arg:
                 echo('Sorry, package installation failed [%(err)s]', {'err': str(arg)})

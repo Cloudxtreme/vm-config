@@ -5,7 +5,7 @@ VAGRANTFILE_API_VERSION = '2'
 settings = JSON.parse(IO.read('config.json'))
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box = settings['vm']['image']
   config.vm.box_check_update = true
 
   if settings['vm']['forwarded']
@@ -31,7 +31,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vm.customize [ 'modifyvm', :id, '--memory', '1024' ]
   end
 
-  config.vm.provision :shell, :inline => 'python /vagrant/provision.py'
-  config.vm.provision :shell, :inline => 'ifconfig eth1 | grep "inet addr"', :run => :always
-  config.vm.provision :shell, :inline => 'service apache2 start', :run => :always
+  for script in settings['provision-scripts'] 
+    config.vm.provision :shell, :inline => script
+  end
+
+  for script in settings['run-scripts'] 
+    config.vm.provision :shell, :inline => script, :run => :always
+  end
+  
+  if settings['vm']['private'] || settings['vm']['public'] 
+    config.vm.provision :shell, :inline => 'ifconfig eth1 | grep "inet addr"', :run => :always
+  end
 end
