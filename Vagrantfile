@@ -3,6 +3,7 @@ require 'json'
 VAGRANTFILE_API_VERSION = '2'
 
 settings = JSON.parse(IO.read('config.json'))
+Dir.mkdir './log' unless Dir.exists? './log'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = settings['vm']['image']

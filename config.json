@@ -10,7 +10,9 @@
     },
 
     "provision-scripts": [
-        "python /vagrant/scripts/local-lamp.py"
+        "python /vagrant/scripts/common.py",
+        "python /vagrant/scripts/mysql.py",
+        "python /vagrant/scripts/apache-php.py"
     ],
 
     "run-scripts": [
