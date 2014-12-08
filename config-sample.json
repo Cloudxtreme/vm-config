@@ -1,0 +1,15 @@
+{
+    "vm": {
+        "name": "MyVM",
+
+        "ip": "192.168.33.11",
+        "forwarded": false,
+        "private": true,
+        "public": false
+    },
+
+    "sharing": {
+        "./www": "/var/www",
+        "./log": "/var/log"
+    }
+}
