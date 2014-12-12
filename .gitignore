@@ -4,6 +4,8 @@ log
 .vagrant
 
 *.pyc
+/config.json
+
 
 /www/html/*
 !/www/html/test.php
