@@ -9,8 +9,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = settings['vm']['image']
   config.vm.box_check_update = true
 
-  if settings['vm']['forwarded']
-    config.vm.network "forwarded_port", :guest => 80, :host => 8080
+  if settings['vm']['forwarding']
+    for forward in settings['vm']['forwarding']
+      if forward.is_a? String
+        config.vm.network "forwarded_port", :guest => forward, :host => forward
+      else
+        config.vm.network "forwarded_port", :guest => forward['guest'], :host => forward['host']
+      end
+    end
   end
 
   if settings['vm']['private']
