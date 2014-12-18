@@ -1,4 +1,5 @@
 import urllib
+import os
 
 os.mkdir('scripts', 0755);
 base_url = 'https://raw.githubusercontent.com/aiskov/vm-config/develop'
