@@ -1,9 +1,18 @@
-Vagrant configuration LAMP
-==========================
+Server configurator
+===================
 
-Main configuration moved to the config.json. Provisioning automaticly run SQL scripts placed 
-in sql and python scripts in py director. 
+Use python scripts to provisioning of linux server, can be used with Vagrant or generic servers.  
 
-Beofre machine runing:
+### Run in Vagrant VM
 
-    mkdir log 
+Just run application.
+
+### Run on linux server (DigitalOcean)
+
+To load provisioning script:
+
+    curl https://raw.githubusercontent.com/aiskov/vm-config/develop/loader.py | python
+
+When finished. You will have directory with provisioning scripts, sample of `config.json` which you can change to proper configuration of the server, and installation url. When `config.json` file already changed you can run: 
+
+    python install.py
