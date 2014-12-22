@@ -28,6 +28,9 @@ Provisioning will add script which will be run on server start or manually:
 ### Configuration
 
 * name - Name (In VM used as VM name, in standalone as host name)
+* location - Name of location to set time
+* locale - code of locale and encoding for use in console
+
 * cron-records - List of cron records
 * provision-scripts - List of scripts for provisioning (installation)
 * run-scripts - List of scripts run on start-up
@@ -36,6 +39,8 @@ Provisioning will add script which will be run on server start or manually:
 
         {
             "name": "VM-Name",
+            "location": "Europe/Warsaw",
+            "locale": "en_US.UTF-8",
 
             "cron-records": [
                 "0 12,20 * * * root python script/daily-backup.py",
@@ -65,6 +70,8 @@ Provisioning will add script which will be run on server start or manually:
 
         {
             "name": "VM-Name",
+            "location": "Europe/Warsaw",
+            "locale": "en_US.UTF-8",
 
             "vm": {
                 "image": "ubuntu/trusty32",

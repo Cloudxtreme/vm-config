@@ -1,5 +1,7 @@
 {
     "name": "Balancer",
+    "location": "Europe/Warsaw",
+    "locale": "en_US.UTF-8",
 
     "vm": {
         "image": "ubuntu/trusty32",
