@@ -1,10 +1,7 @@
-import json
-import os
+from util import *
 
-json_data = open('config.json')
-config = json.load(json_data)
-json_data.close()
+json_data = load_config()
 
 if json_data['run-scripts']:
     for script in json_data['run-scripts']:
-        os.system(script)
+        call(script)
