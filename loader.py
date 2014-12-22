@@ -3,11 +3,6 @@ import json
 import os
 import os.path
 
-script_dir = 'scripts'
-
-if not os.path.exists(script_dir):
-    os.mkdir(script_dir, 0755)
-
 base_url = 'https://raw.githubusercontent.com/aiskov/vm-config/develop'
 
 print """
@@ -18,12 +13,17 @@ urllib.urlretrieve("%s/config.json" % base_url, "config-sample.json")
 print """
 Downloading script files
 """
+script_dir = 'scripts'
+
+if not os.path.exists(script_dir):
+    os.mkdir(script_dir, 0755)
+
 url = "https://api.github.com/repositories/25528321/contents/scripts?ref=develop"
 files = json.loads(urllib.urlopen(url).read())
 
-for file in files:
-    print 'Downloding - %s' % file['path']
-    urllib.urlretrieve(file['download_url'], file['path'])
+for prov_file in files:
+    print 'Downloading - %s' % prov_file['path']
+    urllib.urlretrieve(prov_file['download_url'], prov_file['path'])
 
 print '%s files downloaded' % len(files)
 print 'Preparation done'

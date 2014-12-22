@@ -1,3 +1,4 @@
+from collections import Iterable
 import pwd
 import grp
 import getpass
@@ -16,6 +17,7 @@ def ls(name):
         return ()
 
     return result
+
 
 def chown(name, user, group):
     os.chown(name, pwd.getpwnam(user).pw_uid, grp.getgrnam(group).gr_gid)
@@ -41,17 +43,22 @@ def echo(message, args=None):
 
 
 def apt_get(packages):
-    for pkg in packages:
-        pkg = apt.cache.Cache()[pkg]
+    if not isinstance(packages, basestring) and isinstance(packages, Iterable):
+        for pkg in packages:
+            apt_get(pkg)
 
-        if pkg.is_installed:
-            echo('%(name)s already installed', {'name': pkg})
-        else:
-            try:
-                call('apt-get -qy install %s' % pkg.name)
-                echo('%(name)s installation done', {'name': pkg})
-            except Exception, arg:
-                echo('Sorry, package installation failed [%(err)s]', {'err': str(arg)})
+        return
+
+    pkg = apt.cache.Cache()[packages]
+
+    if pkg.is_installed:
+        echo('%(name)s already installed', {'name': pkg})
+    else:
+        try:
+            call('apt-get -qy install %s' % pkg.name)
+            echo('%(name)s installation done', {'name': pkg})
+        except Exception, arg:
+            echo('Sorry, package installation failed [%(err)s]', {'err': str(arg)})
 
 
 def replace(file_path, pattern, subst):
@@ -71,7 +78,7 @@ def replace(file_path, pattern, subst):
 
 
 def append(file_path, text):
-    if not text in open(file_path).read():
+    if text not in open(file_path).read():
         with open(file_path, "a") as myfile:
             echo('Adding %s to file %s' % (text, file_path))
             myfile.write(text)
