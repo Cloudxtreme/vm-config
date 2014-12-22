@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
 
     config.vm.provider 'virtualbox' do |vm|
-        vm.name = settings['vm']['name']
+        vm.name = settings['name']
         vm.customize ['modifyvm', :id, '--memory', '1024']
     end
 
@@ -45,6 +45,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             config.vm.provision :shell, :inline => script
             config.vm.provision :shell, :inline => script
         }
+    end
+
+    if settings['cron-records']
+        config.vm.provision :shell, :inline => 'python scripts/cron.py'
     end
 
     if settings['run-scripts']

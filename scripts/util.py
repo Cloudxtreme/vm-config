@@ -8,6 +8,9 @@ from shutil import move
 import apt
 from subprocess import *
 import os
+import json
+
+root_dir = os.path.dirname(os.path.abspath(__file__)).replace('scripts', '')
 
 
 def ls(name):
@@ -17,6 +20,15 @@ def ls(name):
         return ()
 
     return result
+
+
+def load_config():
+
+    json_data = open(root_dir + 'config.json')
+    config = json.load(json_data)
+    json_data.close()
+
+    return config
 
 
 def chown(name, user, group):
