@@ -12,6 +12,10 @@
         "public": false
     },
 
+    "elasticsearch": {
+        "version": "1.4.1"
+    },
+
     "cron-records": [
         "0 12,20 * * * root python script/daily-backup.py",
         "0 0 * * 0 root python script/weekly-backup.py",
