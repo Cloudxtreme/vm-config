@@ -17,5 +17,5 @@ call('dpkg-reconfigure locales')
 
 call('locale')
 
-pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl')
+pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-pip')
 apt_get(pkgs)
