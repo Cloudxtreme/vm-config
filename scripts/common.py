@@ -17,7 +17,7 @@ call('dpkg-reconfigure locales')
 
 call('locale')
 
-pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-setuptools', 'python-pip')
+pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip')
 apt_get(pkgs)
 
 call('sudo pip install virtualenv')
