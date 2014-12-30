@@ -17,7 +17,22 @@ call('dpkg-reconfigure locales')
 
 call('locale')
 
-pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip')
+pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip', 'ntp')
 apt_get(pkgs)
 
-call('sudo pip install virtualenv')
+call('pip install virtualenv')
+
+call('ufw allow ssh')
+
+if 'allowed_ports' in json_data:
+    for port in json_data['allowed_ports']
+        call('ufw allow %s/tcp' % port)
+
+call('ufw show added')
+call('ufw enable')
+
+call('fallocate -l %s /swapfile' % (json_data['swap_size'] if 'swap_size' in json_data else '2G'))
+call('chmod 600 /swapfile')
+call('mkswap /swapfile')
+call('swapon /swapfile')
+call('sh -c \'echo "/swapfile none swap sw 0 0" >> /etc/fstab\'')
