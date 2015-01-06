@@ -16,3 +16,5 @@ log
 
 /py/*
 !/py/script.sql
+
+config.json
