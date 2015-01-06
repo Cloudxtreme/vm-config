@@ -5,8 +5,8 @@ VAGRANTFILE_API_VERSION = '2'
 settings = JSON.parse(IO.read('config.json'))
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = settings['vm']['image']
-  config.vm.box_check_update = true
+    config.vm.box = settings['vm']['image']
+    config.vm.box_check_update = true
 
     if settings['vm']['forwarding']
         settings['vm']['forwarding'].each { |forward|
