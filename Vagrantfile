@@ -43,7 +43,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         settings['provision-scripts'].each { |script|
             config.vm.provision :shell, :inline => script
-            config.vm.provision :shell, :inline => script
         }
     end
 
