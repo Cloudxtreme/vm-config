@@ -3,8 +3,13 @@
 log
 .vagrant
 
+*.pyc
+/config.json
+
+
 /www/html/*
 !/www/html/test.php
+
 
 /sql/*
 !/sql/script.sql

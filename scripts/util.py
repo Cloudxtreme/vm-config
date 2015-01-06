@@ -4,9 +4,10 @@ import getpass
 import platform
 from tempfile import mkstemp
 from shutil import move
-import apt
-from subprocess import *
 import os
+import json
+
+root_dir = os.path.dirname(os.path.abspath(__file__)).replace('scripts', '')
 
 
 def ls(name):
@@ -17,41 +18,43 @@ def ls(name):
 
     return result
 
+
+def install(*args):
+    query = ''
+    for arg in args:
+        query = "%s %s" % (query, arg)
+
+    call('apt-get -q -y install %s' % query)
+
+
+def load_config():
+    json_data = open(root_dir + 'config.json')
+    config = json.load(json_data)
+    json_data.close()
+
+    return config
+
+
 def chown(name, user, group):
     os.chown(name, pwd.getpwnam(user).pw_uid, grp.getgrnam(group).gr_gid)
 
 
-def call(command):
-    return os.system(command)
+def call(*args):
+    query = ''
 
+    for arg in args:
+        query = ('%s && %s' % (query, arg)) if query else arg
 
-def updatedCache():
-    echo('Updating application cache...')
-    cache = apt.cache.Cache()
-    cache.update()
-    echo('... Done')
+    echo(query)
+    return os.system(query)
 
 
 def echo(message, args=None):
     if not args:
-        call('echo %s' % message)
+        os.system('echo "%s"' % message)
         return
 
-    call('echo %s' % (message % args))
-
-
-def apt_get(packages):
-    for pkg in packages:
-        pkg = apt.cache.Cache()[pkg]
-
-        if pkg.is_installed:
-            echo('%(name)s already installed', {'name': pkg})
-        else:
-            try:
-                call('apt-get -qy install %s' % pkg.name)
-                echo('%(name)s installation done', {'name': pkg})
-            except Exception, arg:
-                echo('Sorry, package installation failed [%(err)s]', {'err': str(arg)})
+    os.system('echo "%s"' % (message % args))
 
 
 def replace(file_path, pattern, subst):
@@ -71,7 +74,7 @@ def replace(file_path, pattern, subst):
 
 
 def append(file_path, text):
-    if not text in open(file_path).read():
+    if text not in open(file_path).read():
         with open(file_path, "a") as myfile:
             echo('Adding %s to file %s' % (text, file_path))
             myfile.write(text)
