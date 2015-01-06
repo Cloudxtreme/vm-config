@@ -1,6 +1,7 @@
 ## Required:
 
-* `scripts/java8.py` or `scripts/java8.py`
+* `scripts/common.py`
+* `scripts/java.py`
 
 ## Configuration:
 

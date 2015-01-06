@@ -1,8 +1,9 @@
 from util import *
 
+call('apt-get update > /dev/null')
+
 json_data = load_config()
 
-call('dpkg-reconfigure tzdata')
 call('echo "%s" > /etc/timezone' % json_data['location'])
 call('dpkg-reconfigure -f noninteractive tzdata')
 
@@ -17,19 +18,20 @@ call('dpkg-reconfigure locales')
 
 call('locale')
 
-pkgs = ('nano', 'links', 'wget', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip', 'ntp')
-apt_get(pkgs)
+install('nano', 'links', 'wget', 'unzip', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip', 'ntp', 'html2text')
 
 call('pip install virtualenv')
 
 call('ufw allow ssh')
+call('ufw default deny incoming')
+call('ufw default allow outgoing')
 
-if 'allowed_ports' in json_data:
-    for port in json_data['allowed_ports']
+if 'allowed-ports' in json_data:
+    for port in json_data['allowed-ports']:
         call('ufw allow %s/tcp' % port)
 
-call('ufw show added')
-call('ufw enable')
+call('ufw --force enable')
+call('ufw status')
 
 call('fallocate -l %s /swapfile' % (json_data['swap_size'] if 'swap_size' in json_data else '2G'))
 call('chmod 600 /swapfile')

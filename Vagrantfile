@@ -3,7 +3,6 @@ require 'json'
 VAGRANTFILE_API_VERSION = '2'
 
 settings = JSON.parse(IO.read('config.json'))
-Dir.mkdir './log' unless Dir.exists? './log'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = settings['vm']['image']
@@ -27,10 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.network "public_network", :ip => settings['vm']['ip']
     end
 
-    config.vm.synced_folder '.', '/vagrant', :mount_options => %w(dmode=777 fmode=666)
+    config.vm.synced_folder '.', '/vagrant', :mount_options => %w(dmode=777 fmode=777)
 
     settings['sharing'].each { |key, value|
-        config.vm.synced_folder key, value, :mount_options => %w(dmode=777 fmode=666)
+        Dir.mkdir key unless Dir.exists? key
+        config.vm.synced_folder key, value, :mount_options => %w(dmode=777 fmode=777)
     }
 
     config.vm.provider 'virtualbox' do |vm|

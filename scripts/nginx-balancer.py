@@ -1,6 +1,6 @@
 from util import *
 
-apt_get('nginx')
+call('apt-get -qy install nginx')
 
 balancer_config = """
 server {

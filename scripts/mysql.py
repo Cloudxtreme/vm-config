@@ -1,14 +1,15 @@
 from util import *
 
-password = '123456'
+json_data = load_config()['mysql']
 
 # Configure mysql
-call('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections' % password)
-call('echo "mysql-server mysql-server/root_password_again password %s" | debconf-set-selections' % password)
+call('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections'
+     % json_data['password'])
+call('echo "mysql-server mysql-server/root_password_again password %s" | debconf-set-selections'
+     % json_data['password'])
 
 # Install packages from manager
-pkgs = ('mysql-server', 'mysql-client')
-apt_get(pkgs)
+install('mysql-server', 'mysql-client')
 
 # Post config mysql
 echo('Post installation configuring MySQL...')
