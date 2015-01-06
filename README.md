@@ -91,3 +91,10 @@ Provisioning will add script which will be run on server start or manually:
                 "echo 'Run application.'"
             ]
         }
+
+Useful links
+============
+
+* https://www.vagrantup.com/downloads
+* https://www.virtualbox.org/wiki/Downloads 
+* https://www.python.org/downloads/windows
