@@ -97,4 +97,3 @@ Useful links
 
 * https://www.vagrantup.com/downloads
 * https://www.virtualbox.org/wiki/Downloads 
-* https://www.python.org/downloads/windows
