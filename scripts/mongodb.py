@@ -7,3 +7,4 @@ call('echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10g
 call('apt-get update > /dev/null')
 install('mongodb-org=%(v)s mongodb-org-server=%(v)s mongodb-org-shell=%(v)s mongodb-org-mongos=%(v)s mongodb-org-tools=%(v)s' % {'v': json_data['version']})
 call('service mongod start')
+call('service mongod status')
