@@ -18,7 +18,7 @@ call('dpkg-reconfigure locales')
 
 call('locale')
 
-install('nano', 'links', 'wget', 'unzip', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip', 'ntp', 'html2text')
+install('nano', 'links', 'wget', 'unzip', 'openssl', 'git', 'tree', 'curl', 'python-dev', 'python-setuptools', 'python-pip', 'ntp', 'html2text', 'mc')
 
 call('pip install virtualenv')
 
