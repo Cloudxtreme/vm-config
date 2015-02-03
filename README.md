@@ -15,7 +15,7 @@ Just clone repository application, edit `config.json` to configure VM and run:
 
 To load provisioning script:
 
-    curl https://raw.githubusercontent.com/aiskov/vm-config/develop/loader.py | python
+    curl https://raw.githubusercontent.com/aiskov/vm-config/master/loader.py | python
 
 When finished. You will have directory with provisioning scripts, sample of `config.json` which you can change to proper configuration of the server, and installation url. When `config.json` file already changed you can run: 
 
