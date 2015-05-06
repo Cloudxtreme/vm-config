@@ -1,8 +1,14 @@
 from util import *
 
-json_data = load_config()['mysql']
+config = load_config()
+json_data = config['mysql'] if 'mysql' in config else dict()
 
-root_password = json_data['root_password'] if 'root_password' in json_data else json_data['password']
+user = json_data['user'] if 'user' in json_data else 'root'
+password = json_data['root_password'] if 'root_password' in json_data else '1qazxsdw23edc'
+root_password = json_data['root_password'] if 'root_password' in json_data else password
+
+# Add user 
+# call('sudo adduser mysql')
 
 # Configure mysql
 call('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections' % root_password)
@@ -17,7 +23,7 @@ replace('/etc/mysql/my.cnf', 'bind-address', '#ba:')
 chown('/etc/mysql/my.cnf', 'mysql', 'mysql')
 call('/etc/init.d/mysql restart')
 
-if not json_data['user'] == 'root':
+if not user == 'root':
     # TODO: Add user
     print 'User creation not implemented'
 
@@ -32,7 +38,7 @@ queries = [
 for query in queries:
     call("mysql -uroot -p%(password)s -e '%(query)s'" % {
         "password": root_password,
-        "query": query % {"user": json_data['user'], "password": json_data['password']}
+        "query": query % {"user": user, "password": password}
     })
 
 echo('... Done')
