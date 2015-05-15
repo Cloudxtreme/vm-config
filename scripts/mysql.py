@@ -1,12 +1,12 @@
 from util import *
 
-json_data = load_config()['mysql']
+config = load_config()
+config = config['mysql'] if 'mysql' in config else dict()
+password = config['password'] if 'password' in config else '123456' 
 
 # Configure mysql
-call('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections'
-     % json_data['password'])
-call('echo "mysql-server mysql-server/root_password_again password %s" | debconf-set-selections'
-     % json_data['password'])
+call('echo "mysql-server mysql-server/root_password password %s" | debconf-set-selections' % password)
+call('echo "mysql-server mysql-server/root_password_again password %s" | debconf-set-selections' % password')
 
 # Install packages from manager
 install('mysql-server', 'mysql-client')
