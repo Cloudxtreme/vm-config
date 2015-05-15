@@ -7,7 +7,7 @@
         "image": "ubuntu/trusty32",
 
         "ip": "192.168.33.11",
-        "forwarded": true,
+        "forwarding": [ { "guest": 80, "host": 8080 } ],
         "private": false,
         "public": false
     },
