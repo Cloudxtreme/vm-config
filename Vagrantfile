@@ -5,6 +5,7 @@ VAGRANTFILE_API_VERSION = '2'
 settings = JSON.parse(IO.read('config.json'))
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.hostname = settings['vm']['name']
     config.vm.box = settings['vm']['image']
     config.vm.box_check_update = true
 
