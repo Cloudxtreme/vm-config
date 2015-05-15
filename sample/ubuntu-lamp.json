@@ -1,0 +1,25 @@
+{
+    "name": "Ubuntu_LAMP",
+    "location": "Europe/Warsaw",
+    "locale": "en_US.UTF-8",
+
+    "vm": {
+        "image": "ubuntu/trusty32",
+
+        "ip": "192.168.33.11",
+        "forwarded": true,
+        "private": false,
+        "public": false
+    },
+
+    "provision-scripts": [
+        "python scripts/common.py",
+        "python scripts/apache-php.py",
+        "python scripts/mysql.py"
+    ],
+
+    "sharing": {
+        "./www": "/var/www",
+        "./log": "/var/log"
+    }
+}
