@@ -8,6 +8,8 @@
         "forwarding": [ { "guest": 80, "host": 8080 } ]
     },
 
+    "allowed-ports": [ 80 ],
+
     "provision-scripts": [
         "python scripts/common.py",
         "python scripts/apache-php.py",
