@@ -5,11 +5,7 @@
 
     "vm": {
         "image": "ubuntu/trusty32",
-
-        "ip": "192.168.33.11",
-        "forwarding": [ { "guest": 80, "host": 8080 } ],
-        "private": false,
-        "public": false
+        "forwarding": [ { "guest": 80, "host": 8080 } ]
     },
 
     "provision-scripts": [
