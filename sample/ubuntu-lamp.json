@@ -11,7 +11,7 @@
         ]
     },
 
-    "allowed-ports": [ 80 ],
+    "allowed-ports": [ 80, 3306 ],
 
     "provision-scripts": [
         "python scripts/common.py",
