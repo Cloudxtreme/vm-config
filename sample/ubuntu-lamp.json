@@ -5,7 +5,10 @@
 
     "vm": {
         "image": "ubuntu/trusty32",
-        "forwarding": [ { "guest": 80, "host": 8080 } ]
+        "forwarding": [ 
+            { "guest": 80,   "host": 8080 }, 
+            { "guest": 3306, "host": 3307 } 
+        ]
     },
 
     "allowed-ports": [ 80 ],
