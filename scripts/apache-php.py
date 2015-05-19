@@ -10,4 +10,7 @@ install('apache2', 'php5', 'php-pear', 'php5-dev', 'php5-mysql', 'libapache2-mod
 append(php_ini, 'extension=/usr/lib/php5/20121212/mcrypt.so\n')
 append(php_ini, 'zend_extension=/usr/lib/php5/20121212/xdebug.so\n')
 append(php_ini, 'xdebug.remote_enable=On\n')
+
+insert('/etc/apache2/apache2.conf', '\n        AllowOverride All', '<Directory /var/www/>')
+
 call('/etc/init.d/apache2 restart')
