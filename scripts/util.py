@@ -56,7 +56,7 @@ def echo(message, args=None):
 
     os.system('echo "%s"' % (message % args))
 
-
+# Files utils
 def replace(file_path, pattern, subst):
     fh, abs_path = mkstemp()
     new_file = open(abs_path, 'w')
@@ -89,7 +89,26 @@ def chmod(path, rights):
             os.chmod(target, rights)
         except Exception:
             echo('Can\'t change right to %s' % target)
+      
+def insert(filename, str, target):
+    if len(str) < 1:
+        return
 
+    f = open(filename, 'r+')
+    m = mmap(f.fileno(), os.path.getsize(filename))
+    size = m.size()
+    pos = m.find(target)
+
+    if pos > size or pos < 0:
+        pos = size
+
+    m.resize(size + len(str))
+    m[pos + len(str):] = m[pos:size]
+    m[pos:pos + len(str)] = str
+    m.close()
+    f.close()            
+
+# Execution info
 echo('Provision with Python - %s', platform.python_version())
 echo('Guest User Name: %s', getpass.getuser())
 echo('Current directory: %s', os.getcwd())
