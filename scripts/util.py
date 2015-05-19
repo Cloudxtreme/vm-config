@@ -9,7 +9,15 @@ import json
 
 root_dir = os.path.dirname(os.path.abspath(__file__)).replace('scripts', '')
 
+# Config and loading utils
+def load_config():
+    json_data = open(root_dir + 'config.json')
+    config = json.load(json_data)
+    json_data.close()
 
+    return config
+
+# Command line utils
 def ls(name):
     result = os.listdir(name)
     
@@ -25,14 +33,6 @@ def install(*args):
         query = "%s %s" % (query, arg)
 
     call('apt-get -q -y install %s' % query)
-
-
-def load_config():
-    json_data = open(root_dir + 'config.json')
-    config = json.load(json_data)
-    json_data.close()
-
-    return config
 
 
 def chown(name, user, group):
@@ -89,6 +89,7 @@ def chmod(path, rights):
             os.chmod(target, rights)
         except Exception:
             echo('Can\'t change right to %s' % target)
+
       
 def insert(filename, str, target):
     if len(str) < 1:
@@ -97,11 +98,11 @@ def insert(filename, str, target):
     f = open(filename, 'r+')
     m = mmap(f.fileno(), os.path.getsize(filename))
     size = m.size()
-    pos = m.find(target)
+    pos = m.find(target) + len(target)
 
     if pos > size or pos < 0:
         pos = size
-
+        
     m.resize(size + len(str))
     m[pos + len(str):] = m[pos:size]
     m[pos:pos + len(str)] = str
