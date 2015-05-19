@@ -6,6 +6,7 @@ from tempfile import mkstemp
 from shutil import move
 import os
 import json
+from mmap import mmap
 
 root_dir = os.path.dirname(os.path.abspath(__file__)).replace('scripts', '')
 
