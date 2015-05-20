@@ -20,9 +20,5 @@
     "sharing": {
         "./www": "/var/www",
         "./log": "/var/log"
-    },
-    
-    "mongodb": {
-        "version": "3.0.3"
     }
 }
