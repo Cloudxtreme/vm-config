@@ -1,0 +1,24 @@
+{
+    "name": "Ubuntu_Static_Web",
+    "location": "Europe/Warsaw",
+    "locale": "en_US.UTF-8",
+
+    "vm": {
+        "image": "ubuntu/trusty32",
+        "forwarding": [ 
+            { "guest": 80, "host": 8080 }
+        ]
+    },
+
+    "allowed-ports": [ 80 ],
+
+    "provision-scripts": [
+        "python scripts/common.py",
+        "python scripts/nginx.py"
+    ],
+
+    "sharing": {
+        "./www": "/var/www",
+        "./log": "/var/log"
+    }
+}
