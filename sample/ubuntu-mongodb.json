@@ -1,0 +1,28 @@
+{
+    "name": "Ubuntu_Static_Web",
+    "location": "Europe/Warsaw",
+    "locale": "en_US.UTF-8",
+
+    "vm": {
+        "image": "ubuntu/trusty32",
+        "forwarding": [ 
+            { "guest": 27017, "host": 27017 }
+        ]
+    },
+
+    "allowed-ports": [ 27017 ],
+
+    "provision-scripts": [
+        "python scripts/common.py",
+        "python scripts/mongodb.py"
+    ],
+
+    "sharing": {
+        "./www": "/var/www",
+        "./log": "/var/log"
+    },
+    
+    "mongodb": {
+        "version": "3.0"
+    }
+}
