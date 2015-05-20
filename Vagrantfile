@@ -34,9 +34,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.synced_folder key, value, :mount_options => %w(dmode=777 fmode=777)
     }
 
+    memory = settings['vm'].has_key?('memory') ? settings['vm']['memory'] : '512' 
     config.vm.provider 'virtualbox' do |vm|
         vm.name = settings['name']
-        vm.customize ['modifyvm', :id, '--memory', settings['vm']['memory']]
+        vm.customize ['modifyvm', :id, '--memory', memory]
     end
 
     if settings['provision-scripts']
