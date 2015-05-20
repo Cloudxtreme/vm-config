@@ -20,5 +20,9 @@
     "sharing": {
         "./www": "/var/www",
         "./log": "/var/log"
-    }
+    },
+    
+    "run-scripts": [
+        "service nginx start"
+    ]
 }
