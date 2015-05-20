@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.provider 'virtualbox' do |vm|
         vm.name = settings['name']
-        vm.customize ['modifyvm', :id, '--memory', '1024']
+        vm.customize ['modifyvm', :id, '--memory', settings['vm']['memory']]
     end
 
     if settings['provision-scripts']
