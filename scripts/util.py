@@ -91,7 +91,7 @@ def chmod(path, rights):
         except Exception:
             echo('Can\'t change right to %s' % target)
 
-      
+
 def insert(filename, str, target):
     if len(str) < 1:
         return
@@ -109,6 +109,24 @@ def insert(filename, str, target):
     m[pos:pos + len(str)] = str
     m.close()
     f.close()            
+
+
+def replace_after(filename, str_origin, str_replace, target):
+    if len(str_origin) < 1 or len(str_replace) < 1 :
+        return
+
+    f = open(filename, 'r+')
+    m = mmap(f.fileno(), os.path.getsize(filename))
+    size = m.size()
+    pos = m.find(str_origin, m.find(target) + len(target))
+
+    size_dif = len(str_replace) - len(str_origin)
+    m.resize(size + size_dif)
+
+    m[pos + len(str_replace):] = m[pos:size]
+    m[pos:pos + len(str_origin)] = str_replace
+    m.close()
+    f.close()  
 
 
 def find(name, location='/'):
