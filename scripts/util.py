@@ -117,12 +117,12 @@ def replace_after(filename, str_origin, str_replace, target):
 
     f = open(filename, 'r+')
     m = mmap(f.fileno(), os.path.getsize(filename))
-    size = m.size()
+
     pos = m.find(str_origin, m.find(target) + len(target))
-    tmp = m[pos:size]
+    tmp = m[pos + len(str_origin):]
 
     size_dif = len(str_replace) - len(str_origin)
-    m.resize(size + size_dif)
+    m.resize(m.size() + size_dif)
 
     m[pos + len(str_replace):] = tmp
     m[pos:pos + len(str_replace)] = str_replace
