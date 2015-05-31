@@ -124,7 +124,7 @@ def replace_after(filename, str_origin, str_replace, target):
     m.resize(size + size_dif)
 
     m[pos + len(str_replace):] = m[pos:size]
-    m[pos:pos + len(str_origin)] = str_replace
+    m[pos:pos + len(str_replace)] = str_replace
     m.close()
     f.close()  
 
