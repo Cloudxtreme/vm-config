@@ -87,13 +87,14 @@ def chmod(path, rights):
     os.chmod(path, rights)
     for target, d, f in os.walk(path):
         try:
+            echo('Change rights of %s to %s' % (target, rights))
             os.chmod(target, rights)
         except Exception:
             echo('Can\'t change right to %s' % target)
 
 
-def insert(filename, str, target):
-    if len(str) < 1:
+def insert(filename, insertion, target):
+    if len(insertion) < 1:
         return
 
     f = open(filename, 'r+')
@@ -104,11 +105,13 @@ def insert(filename, str, target):
     if pos > size or pos < 0:
         pos = size
         
-    m.resize(size + len(str))
-    m[pos + len(str):] = m[pos:size]
-    m[pos:pos + len(str)] = str
+    m.resize(size + len(insertion))
+    m[pos + len(insertion):] = m[pos:size]
+    m[pos:pos + len(insertion)] = insertion
     m.close()
     f.close()            
+    
+    echo('Inserting "%s" to %s after %s' % (insertion, filename, target))
 
 
 def replace_after(filename, str_origin, str_replace, target):
@@ -129,6 +132,8 @@ def replace_after(filename, str_origin, str_replace, target):
     m.close()
     f.close()  
 
+    echo('Replacing "%s"->"%s" to %s after %s' % (str_origin, str_replace, filename, target))
+
 
 def find(name, location='/'):
     result = set()
@@ -136,7 +141,9 @@ def find(name, location='/'):
     for root, dirs, files in os.walk(location):
         for file in files:
             if file.endswith(name):
-                 result.add(file)
+                path = root + '/' + file
+                result.add(path)
+                echo('Found file %s' % path)
                  
     return result
 
@@ -145,7 +152,9 @@ def find_first(name, location='/'):
     for root, dirs, files in os.walk(location):
         for file in files:
             if file.endswith(name):
-                 return file
+                path = root + '/' + file
+                echo('Found file %s' % path)
+                return path
     
     return None
     
