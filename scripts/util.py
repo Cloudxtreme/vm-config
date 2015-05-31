@@ -110,6 +110,16 @@ def insert(filename, str, target):
     m.close()
     f.close()            
 
+def find(name, location='/'):
+    result = set()
+    
+    for root, dirs, files in os.walk(location):
+        for file in files:
+            if file is name:
+                 result.add(file)
+                 
+    return result
+
 # Execution info
 echo('Provision with Python - %s', platform.python_version())
 echo('Guest User Name: %s', getpass.getuser())
