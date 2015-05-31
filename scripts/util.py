@@ -121,6 +121,14 @@ def find(name, location='/'):
                  
     return result
 
+def find_first(name, location='/'):
+    for root, dirs, files in os.walk(location):
+        for file in files:
+            if file is name:
+                 return file
+    
+    return None
+    
 # Execution info
 echo('Provision with Python - %s', platform.python_version())
 echo('Guest User Name: %s', getpass.getuser())
