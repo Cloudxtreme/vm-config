@@ -110,6 +110,7 @@ def insert(filename, str, target):
     m.close()
     f.close()            
 
+
 def find(name, location='/'):
     result = set()
     
