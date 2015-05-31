@@ -135,7 +135,7 @@ def find(name, location='/'):
     
     for root, dirs, files in os.walk(location):
         for file in files:
-            if file is name:
+            if file.endswith(name):
                  result.add(file)
                  
     return result
@@ -144,7 +144,7 @@ def find(name, location='/'):
 def find_first(name, location='/'):
     for root, dirs, files in os.walk(location):
         for file in files:
-            if file is name:
+            if file.endswith(name):
                  return file
     
     return None
