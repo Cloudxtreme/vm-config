@@ -5,6 +5,7 @@ import platform
 from tempfile import mkstemp
 from shutil import move
 import os
+import sys
 import json
 from mmap import mmap
 
@@ -51,6 +52,8 @@ def call(*args):
 
 
 def echo(message, args=None):
+    message = message.replace('"', '\\"')
+
     if not args:
         os.system('echo "%s"' % message)
         return
@@ -91,6 +94,20 @@ def chmod(path, rights):
             os.chmod(target, rights)
         except Exception:
             echo('Can\'t change right to %s' % target)
+
+
+def add_user(user, group=None):
+    try:
+        pwd.getpwnam(user)
+    except KeyError:
+        call('useradd -r -g %s %s' % (user, group if group else user))
+
+
+def add_group(group):
+    try:
+        grp.getgrnam(group)
+    except KeyError:
+        call('groupadd %s' % group)
 
 
 def insert(filename, insertion, target):
@@ -157,7 +174,8 @@ def find_first(name, location='/'):
                 return path
     
     return None
-    
+
+
 # Execution info
 echo("""
 ================================================================================================
