@@ -1,0 +1,39 @@
+{
+    "name": "Magento_1_9",
+    "location": "Europe/Warsaw",
+    "locale": "en_US.UTF-8",
+
+    "vm": {
+        "image": "ubuntu/trusty32",
+        "forwarding": [ 
+            { "guest": 80,   "host": 8080 }, 
+            { "guest": 3306, "host": 3307 } 
+        ]
+    },
+
+    "mysql": {
+        "root_password": "1qazxsw23edc"
+    },
+
+    "magento": {
+        "version": "1.9.1.1"
+    },
+
+    "allowed-ports": [ 80, 3306 ],
+
+    "provision-scripts": [
+        "python scripts/common.py",
+        "python scripts/mysql.py",
+        "python scripts/apache-php.py",
+        "python scripts/magento.py"
+    ],
+
+    "sharing": {
+        "./www": "/var/www",
+        "./log": "/var/log"
+    },
+    
+     "run-scripts": [
+        "service apache2 start"
+    ]
+}
