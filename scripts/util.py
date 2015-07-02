@@ -29,12 +29,28 @@ def ls(name):
     return result
 
 
+def is_file_exists(target):
+    os.path.isfile(target)
+
+
 def install(*args):
     query = ''
     for arg in args:
         query = "%s %s" % (query, arg)
 
     call('apt-get -q -y install %s' % query)
+
+
+def copy(source, target):
+    call('cp -R %s %s', source, target)
+
+
+def wget(url):
+    call('wget %s' % url)
+
+
+def extract_tar(target):
+    call('tar -zxvf %s' % target)
 
 
 def chown(name, user, group):
