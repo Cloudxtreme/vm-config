@@ -159,6 +159,12 @@ def find_first(name, location='/'):
     return None
     
 # Execution info
+echo("""
+================================================================================================
+== %s
+================================================================================================
+""" % sys.argv[0])
+
 echo('Provision with Python - %s', platform.python_version())
 echo('Guest User Name: %s', getpass.getuser())
 echo('Current directory: %s', os.getcwd())
